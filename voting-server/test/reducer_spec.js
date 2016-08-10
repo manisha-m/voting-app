@@ -1,7 +1,7 @@
 import {expect} from 'chai';
 import {List, Map} from 'immutable';
 
-import {reducer} from '../src/reducer';
+import reducer from '../src/reducer';
 
 describe('reducer', () => {
 
