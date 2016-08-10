@@ -55,4 +55,15 @@ describe('reducer', () => {
 									entries: List()
 									}));
 	});
+
+	it('handles undefined initial state', () => {
+		const action = {type: 'SET_ENTRIES', entries: ['Catch Me If You Can', 'Cast Away']};
+
+		const nextState = reducer(undefined, action);
+
+		expect(nextState).to.equal(Map({
+									entries: List.of('Catch Me If You Can', 'Cast Away')
+									}));
+		
+	});
 });
