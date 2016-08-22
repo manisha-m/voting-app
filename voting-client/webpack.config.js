@@ -1,4 +1,5 @@
 var webpack = require('webpack');
+var HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
 	entry: [
@@ -21,6 +22,11 @@ module.exports = {
 		hot: true
 	},
 	plugins: [
+    	new HtmlWebpackPlugin({
+        	template: __dirname + '/index.html',
+        	filename: 'index.html',
+        	inject: 'body'
+    	}),
 		new webpack.HotModuleReplacementPlugin()
 	]
 
