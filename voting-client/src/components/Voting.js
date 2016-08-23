@@ -1,14 +1,14 @@
 import React from 'react';
+import Vote from './Vote';
+import Winner from './Winner';
 
 export default React.createClass({
 	render: function () {
 		return <div className='voting'>
-				{this.props.pair.map(entry => 
-					<button key={entry}
-						onClick={() => this.props.vote(entry)}> 
-						<h1>{entry}</h1>
-					</button>
-					)}
+				{this.props.winner ? 
+					<Winner ref='winner' winner={this.props.winner} /> :
+					<Vote {...this.props} />
+				}
 			    </div>;
 	}
 });
