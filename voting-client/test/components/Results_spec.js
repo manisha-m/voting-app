@@ -55,4 +55,20 @@ describe('Results', () => {
 		expect(nextInvoked).to.equal(true);
 
 	});
+	it('renders just the winner when there is one', () => {
+		const component = renderIntoDocument(
+			<Results 
+				pair={List.of("The Terminal", "Forrest Gump")}
+				tally={Map({'Forrest Gump': 5})}
+				winner="Forrest Gump"	/>
+		);
+		const entries = scryRenderedDOMComponentsWithClass(component, 'entry');
+		
+		expect(entries.length).to.equal(0);
+		const winner = ReactDOM.findDOMNode(component.refs.winner);
+
+		expect(winner).to.be.ok;
+		expect(winner.textContent).to.contain('Forrest Gump');
+
+	});
 });
