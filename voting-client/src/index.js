@@ -1,20 +1,33 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Voting from './components/Voting';
+import {VotingContainer} from './components/Voting';
 import {Router, Route, hashHistory} from 'react-router';
 import App from './components/App';
-import Results from './components/Results';
+import {ResultsContainer} from './components/Results';
+import {createStore} from 'redux';
+import {Provider} from 'react-redux';
+import reducer from './reducer';
 
-var routes = (
-    <Router history={hashHistory}>
+const store = createStore(reducer);
+store.dispatch({
+	type: 'SET_STATE',
+	state: {
+		vote: {
+			pair: ['Catch Me If You Can', 'Forrest Gump'],
+			tally: {'Forrest Gump': 5}
+		}
+	}
+});
+
+const routes = 
         <Route component={App}>
-            <Route path='/results' component={Results}/>
-            <Route path='/' component={Voting}/>
-        </Route>
-    </Router>
-);
+            <Route path='/results' component={ResultsContainer}/>
+            <Route path='/' component={VotingContainer}/>
+        </Route>;
 
-export default ReactDOM.render(
-	routes,
+ReactDOM.render(
+	<Provider store={store}>
+    	<Router history={hashHistory}>{routes}</Router>
+	</Provider>,
 	document.getElementById('app')
 );
