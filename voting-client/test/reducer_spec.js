@@ -72,4 +72,86 @@ describe('reducer', () => {
 			}
 		}));
 	});
+
+	it('handles VOTE by setting hasVoted', () => {
+	
+		const state = fromJS({
+					vote: {
+						pair: ['Cast Away', 'Forrest Gump'],
+						tally: { 'Forrest Gump': 5}
+					}
+
+		});
+		const action = {
+			type: 'VOTE',
+			entry: 'Forrest Gump'
+		};
+
+		const newState = reducer(state, action);
+
+		expect(newState).to.equal(fromJS({
+			vote: {
+				pair: ['Cast Away', 'Forrest Gump'],
+				tally: {'Forrest Gump': 5}
+			},
+			hasVoted: 'Forrest Gump'
+
+		}));
+	
+	});
+
+	it('does not set hasVoted for VOTE on invalid entry', () => {
+		const state = fromJS({
+					vote: {
+						pair: ['Cast Away', 'Forrest Gump'],
+						tally: { 'Forrest Gump': 5}
+					}
+
+		});
+		const action = {
+			type: 'VOTE',
+			entry: 'Bridge Of Spies'
+		};
+		
+		const newState = reducer(state, action);
+
+		expect(newState).to.equal(fromJS({
+			vote: {
+				pair: ['Cast Away', 'Forrest Gump'],
+				tally: {'Forrest Gump': 5}
+			}
+
+		}));
+	
+	});
+
+	it('resets hasVoted when SET_ENTRIES selects a new pair', () => {
+		const state = fromJS({
+					vote: {
+						pair: ['Cast Away', 'Forrest Gump'],
+						tally: { 'Forrest Gump': 5}
+					},
+					hasVoted: 'Forrest Gump'
+
+		});
+		const action = {
+			type: 'SET_STATE',
+			state: {
+					vote: {
+						pair: ['Bridge of Spies', 'Philadelphia'],
+					}
+				}
+		};
+
+		const newState = reducer(state, action);
+
+		expect(newState).to.equal(fromJS({
+			vote: {
+				pair: ['Bridge of Spies', 'Philadelphia'],
+			}
+
+		}));
+
+	});
+
 });

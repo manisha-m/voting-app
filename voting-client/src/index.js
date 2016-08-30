@@ -7,17 +7,16 @@ import {ResultsContainer} from './components/Results';
 import {createStore} from 'redux';
 import {Provider} from 'react-redux';
 import reducer from './reducer';
+import {setState} from './action_creators';
+import io from 'socket.io-client';
 
 const store = createStore(reducer);
-store.dispatch({
-	type: 'SET_STATE',
-	state: {
-		vote: {
-			pair: ['Catch Me If You Can', 'Forrest Gump'],
-			tally: {'Forrest Gump': 5}
-		}
-	}
-});
+
+console.log("About to open socket.io client connection");
+const socket = io(`${location.protocol}//${location.hostname}:8090`);
+socket.on('state', state => 
+	store.dispatch(setState(state))
+);
 
 const routes = 
         <Route component={App}>
