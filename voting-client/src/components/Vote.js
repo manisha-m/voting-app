@@ -3,6 +3,9 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 export default React.createClass({
 	mixins: [PureRenderMixin],
+	getPair: function () {
+		return this.props.pair || [];
+	},
 	isDisabled: function () {
 		return !!this.props.hasVoted;
 	},
@@ -11,7 +14,7 @@ export default React.createClass({
 	},
 	render: function () {
 		return <div className='vote'>
-				{this.props.pair.map(entry => 
+				{this.getPair().map(entry => 
 					<button key={entry}
 						disabled={this.isDisabled()}
 						onClick={() => this.props.vote(entry)}> 

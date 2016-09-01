@@ -11,7 +11,13 @@ import {setState} from './action_creators';
 import io from 'socket.io-client';
 import remoteActionMiddleware from './remote_action_middleware';
 
-console.log("About to open socket.io client connection");
+//apply logger middleware
+import thunk from 'redux-thunk';
+import promise from 'redux-promise';
+import createLogger from 'redux-logger';
+
+const logger = createLogger();
+
 console.log(`${location.protocol}//${location.hostname}:8090`);
 const socket = io(`${location.protocol}//${location.hostname}:8090`);
 socket.on('state', state => 
@@ -19,7 +25,7 @@ socket.on('state', state =>
 );
 
 const createStoreWithMiddleware = applyMiddleware(
-  remoteActionMiddleware(socket)
+  remoteActionMiddleware(socket), thunk, promise, logger
 )(createStore);
 const store = createStoreWithMiddleware(reducer);
 
