@@ -1,7 +1,7 @@
-import server from 'socket.io';
+import Server from 'socket.io';
 
 export function startServer(store) {
-	const io = new server().attach(8090);
+	const io = new Server().attach(8090);
 
 	store.subscribe(
 		() => io.emit('state', store.getState().toJS())
