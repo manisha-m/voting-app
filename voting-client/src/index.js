@@ -18,11 +18,15 @@ import createLogger from 'redux-logger';
 
 const logger = createLogger();
 
-console.log(`${location.protocol}//${location.hostname}:8090`);
-const socket = io(`${location.protocol}//${location.hostname}:8090`);
+const socket = io();
 socket.on('state', state => 
 	store.dispatch(setState(state))
 );
+
+/*socket.on('server event', function (data) {
+    console.log(data);
+    socket.emit('client event', { socket: 'io' });
+});*/
 
 const createStoreWithMiddleware = applyMiddleware(
   remoteActionMiddleware(socket), thunk, promise, logger
